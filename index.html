@@ -282,6 +282,13 @@
     font-weight:600;
     font-size:15.5px;
   }
+  .host-name a{
+    color:inherit;
+    text-decoration:none;
+    border-bottom:1px solid var(--line);
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .host-name a:hover{ color:var(--accent-ink); border-color:var(--accent); }
   .host-price{
     font-family:'JetBrains Mono', monospace;
     color:var(--ink-soft);
@@ -513,7 +520,7 @@
     <div class="hostgrid">
       <div class="host-card">
         <div class="host-id">
-          <div class="host-name">Spotify for Creators</div>
+          <div class="host-name"><a href="https://creators.spotify.com/" target="_blank" rel="noopener">Spotify for Creators</a></div>
           <div class="host-price">Gratuit</div>
         </div>
         <div class="host-pros">
@@ -536,7 +543,7 @@
 
       <div class="host-card">
         <div class="host-id">
-          <div class="host-name">Buzzsprout</div>
+          <div class="host-name"><a href="https://www.buzzsprout.com/" target="_blank" rel="noopener">Buzzsprout</a></div>
           <div class="host-price">15 $/mois (facturation annuelle)</div>
         </div>
         <div class="host-pros">
@@ -559,7 +566,7 @@
 
       <div class="host-card">
         <div class="host-id">
-          <div class="host-name">Blubrry</div>
+          <div class="host-name"><a href="https://blubrry.com/" target="_blank" rel="noopener">Blubrry</a></div>
           <div class="host-price">Dès 7 $/mois (1,5h de contenu/mois)</div>
         </div>
         <div class="host-pros">
@@ -582,7 +589,7 @@
 
       <div class="host-card reco">
         <div class="host-id">
-          <div class="host-name">Ausha Launch</div>
+          <div class="host-name"><a href="https://www.ausha.co/pricing/" target="_blank" rel="noopener">Ausha Launch</a></div>
           <div class="host-price">Dès 13 €/mois (annuel), 15 €/mois sans engagement</div>
           <span class="pill-mini">Recommandé</span>
         </div>
