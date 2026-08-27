@@ -1,15 +1,18 @@
 <title>Diffuser le podcast</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#F7F6F3;
     --panel:#FFFFFF;
+    --panel-soft:#FBFAF8;
     --ink:#181A1F;
     --ink-soft:#5B5F6B;
+    --ink-faint:#8A8E99;
     --line:#E4E2DC;
     --accent:#2B3EFF;
+    --accent-ink:#1B2ACC;
     --accent-soft:#EEF0FF;
     --now:#1F7A4C;
     --now-bg:#E7F5EC;
@@ -17,7 +20,55 @@
     --before-bg:#FBF0DA;
     --later:#6B6F7A;
     --later-bg:#EEEDE9;
+    --gold:#B5790A;
+    --gold-bg:#FBF0DA;
+    --shadow: 0 1px 2px rgba(24,26,31,.04), 0 8px 24px -12px rgba(24,26,31,.10);
   }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#131417;
+      --panel:#1B1D22;
+      --panel-soft:#202226;
+      --ink:#EDEDEF;
+      --ink-soft:#A3A6B0;
+      --ink-faint:#6E7178;
+      --line:#2C2E34;
+      --accent:#7C89FF;
+      --accent-ink:#AAB2FF;
+      --accent-soft:#232544;
+      --now:#5FCB8E;
+      --now-bg:#173425;
+      --before:#E5AC4C;
+      --before-bg:#3A2E12;
+      --later:#9498A3;
+      --later-bg:#25272C;
+      --gold:#E5AC4C;
+      --gold-bg:#3A2E12;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#131417;
+    --panel:#1B1D22;
+    --panel-soft:#202226;
+    --ink:#EDEDEF;
+    --ink-soft:#A3A6B0;
+    --ink-faint:#6E7178;
+    --line:#2C2E34;
+    --accent:#7C89FF;
+    --accent-ink:#AAB2FF;
+    --accent-soft:#232544;
+    --now:#5FCB8E;
+    --now-bg:#173425;
+    --before:#E5AC4C;
+    --before-bg:#3A2E12;
+    --later:#9498A3;
+    --later-bg:#25272C;
+    --gold:#E5AC4C;
+    --gold-bg:#3A2E12;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+
   *{box-sizing:border-box;}
   body{
     margin:0;
@@ -25,118 +76,237 @@
     color:var(--ink);
     font-family:'Inter', sans-serif;
     font-size:15px;
-    line-height:1.55;
+    line-height:1.6;
   }
-  .wrap{ max-width:960px; margin:0 auto; padding:40px 22px 90px; }
+  .wrap{ max-width:900px; margin:0 auto; padding:44px 22px 100px; }
 
   header.top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    flex-wrap:wrap;
-    gap:16px;
-    padding-bottom:26px;
+    padding-bottom:24px;
     border-bottom:2px solid var(--ink);
-    margin-bottom:36px;
+    margin-bottom:8px;
   }
   .eyebrow{
     font-size:12px;
     letter-spacing:.12em;
     text-transform:uppercase;
-    color:var(--accent);
+    color:var(--accent-ink);
     font-weight:600;
-    margin:0 0 8px;
+    margin:0 0 10px;
   }
   h1{
     font-family:'Space Grotesk', sans-serif;
     font-weight:700;
-    font-size:clamp(26px,4vw,36px);
-    margin:0;
+    font-size:clamp(28px,4.4vw,38px);
+    margin:0 0 10px;
     letter-spacing:-.01em;
+    text-wrap:balance;
   }
-  .meta{
-    text-align:right;
-    font-size:12.5px;
+  .dek{
+    max-width:60ch;
     color:var(--ink-soft);
-    line-height:1.7;
+    font-size:15px;
+    margin:0;
   }
 
-  section{ margin-bottom:46px; }
-  .sec-head{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .toc{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 4px;
+    margin:26px 0 46px;
+    padding:0;
+    list-style:none;
+  }
+  .toc li a{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    color:var(--ink-soft);
+    text-decoration:none;
+    font-size:12.5px;
+    font-weight:500;
+    background:var(--panel);
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .toc li a:hover{ border-color:var(--accent); color:var(--accent-ink); }
+  .toc li a b{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:500;
+    color:var(--ink-faint);
+    font-size:11px;
+  }
+
+  section{ margin-bottom:52px; scroll-margin-top:20px; }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:14px; }
   .sec-num{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:500;
     font-size:13px;
-    background:var(--ink);
-    color:#fff;
-    width:28px; height:28px;
-    border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
+    color:var(--accent-ink);
     flex:none;
+    letter-spacing:.02em;
   }
   .sec-title{
     font-family:'Space Grotesk', sans-serif;
     font-weight:600;
-    font-size:20px;
+    font-size:21px;
+    text-wrap:balance;
   }
   .sec-sub{
     margin:2px 0 0 40px;
     color:var(--ink-soft);
     font-size:13.5px;
+    max-width:56ch;
+  }
+  .sec-body{ margin-left:0; }
+
+  /* Recommendation banner */
+  .reco-banner{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    background:var(--accent-soft);
+    border:1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+    border-radius:12px;
+    padding:18px 20px;
+    margin:18px 0;
+  }
+  .reco-badge{
+    flex:none;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:#fff;
+    background:var(--accent);
+    padding:5px 10px;
+    border-radius:6px;
+    white-space:nowrap;
+    margin-top:1px;
+  }
+  .reco-text b{ font-family:'Space Grotesk', sans-serif; }
+  .reco-text{ font-size:13.5px; }
+  .reco-price{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:500;
+    color:var(--accent-ink);
   }
 
-  /* Comparison table */
-  .tablewrap{
+  /* Flow diagram */
+  .flow{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    margin:20px 0 6px;
+  }
+  .flow-step{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    position:relative;
+    padding-bottom:22px;
+  }
+  .flow-step:last-child{ padding-bottom:0; }
+  .flow-step:not(:last-child)::before{
+    content:"";
+    position:absolute;
+    left:15px;
+    top:34px;
+    bottom:-2px;
+    width:1px;
+    background:var(--line);
+  }
+  .flow-dot{
+    flex:none;
+    width:32px; height:32px;
+    border-radius:50%;
     background:var(--panel);
+    border:1.5px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    z-index:1;
+  }
+  .flow-step.hub .flow-dot{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
+  .flow-content{ padding-top:5px; }
+  .flow-title{ font-weight:600; font-size:14px; }
+  .flow-desc{ color:var(--ink-soft); font-size:13px; margin-top:2px; }
+  .flow-tag{
+    display:inline-block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-faint);
+    background:var(--panel-soft);
     border:1px solid var(--line);
-    border-radius:10px;
-    overflow:hidden;
+    padding:1px 7px;
+    border-radius:4px;
+    margin-left:8px;
+    vertical-align:1px;
+  }
+
+  /* Comparison table (2-column decision) */
+  .compare{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
     margin-top:18px;
   }
-  table{ width:100%; border-collapse:collapse; }
-  th{
-    text-align:left;
-    font-size:11.5px;
-    letter-spacing:.06em;
-    text-transform:uppercase;
+  .compare-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px;
+    box-shadow:var(--shadow);
+  }
+  .compare-card.reco{ border-color:color-mix(in srgb, var(--accent) 40%, var(--line)); }
+  .compare-name{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:16px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .compare-price{
+    font-family:'JetBrains Mono', monospace;
     color:var(--ink-soft);
-    padding:14px 16px;
-    border-bottom:1px solid var(--line);
-    background:#FBFAF8;
+    font-size:13px;
+    margin:4px 0 14px;
   }
-  td{
-    padding:16px;
-    border-bottom:1px solid var(--line);
-    vertical-align:top;
-    font-size:13.5px;
-  }
-  tr:last-child td{ border-bottom:none; }
-  tr.reco td{ background:var(--accent-soft); }
-  .host-name{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:15px; }
-  .price{ font-weight:600; white-space:nowrap; }
-  .tag-reco{
-    display:inline-block;
-    background:var(--accent);
-    color:#fff;
+  .compare-rows{ display:flex; flex-direction:column; gap:10px; }
+  .compare-row{ display:flex; gap:10px; font-size:13px; }
+  .compare-row .k{ color:var(--ink-faint); flex:0 0 40%; }
+  .compare-row .v{ color:var(--ink); flex:1; }
+  .check{ color:var(--now); }
+  .cross{ color:var(--ink-faint); }
+  .pill-mini{
     font-size:10px;
     font-weight:600;
-    letter-spacing:.04em;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    background:var(--accent);
+    color:#fff;
     padding:2px 8px;
     border-radius:20px;
-    margin-left:8px;
-    vertical-align:middle;
   }
-  .con{ color:var(--ink-soft); }
-
-  .callout{
+  .alt-note{
     margin-top:16px;
-    background:var(--accent-soft);
-    border-left:3px solid var(--accent);
-    padding:14px 18px;
-    border-radius:0 8px 8px 0;
-    font-size:13.5px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    padding:12px 16px;
+    background:var(--panel-soft);
+    border:1px solid var(--line);
+    border-radius:8px;
   }
-  .callout b{ font-family:'Space Grotesk', sans-serif; }
+  .alt-note b{ color:var(--ink); }
 
   /* Action checklist */
   .action{
@@ -148,11 +318,12 @@
     border-radius:10px;
     padding:16px 18px;
     margin-bottom:10px;
+    box-shadow:var(--shadow);
   }
   .action .box{
     width:18px; height:18px;
-    border:2px solid var(--ink);
-    border-radius:4px;
+    border:2px solid var(--ink-faint);
+    border-radius:5px;
     flex:none;
     margin-top:2px;
   }
@@ -177,7 +348,7 @@
   .legend{
     display:flex; gap:18px; flex-wrap:wrap;
     font-size:12px; color:var(--ink-soft);
-    margin:14px 0 20px;
+    margin:14px 0 18px;
   }
   .legend span{ display:flex; align-items:center; gap:6px; }
   .dot{ width:9px; height:9px; border-radius:50%; }
@@ -185,180 +356,373 @@
   .dot.before{ background:var(--before); }
   .dot.later{ background:var(--later); }
 
-  /* Watch-out list */
-  .watch{
+  /* Priority columns (communication section) */
+  .prio-cols{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:14px;
+    margin-top:18px;
+  }
+  .prio-col{
     background:var(--panel);
     border:1px solid var(--line);
-    border-radius:10px;
-    padding:6px 18px;
+    border-radius:12px;
+    padding:16px 18px;
+    box-shadow:var(--shadow);
   }
-  .watch-item{
-    display:flex; gap:12px;
-    padding:14px 0;
-    border-bottom:1px dashed var(--line);
-  }
-  .watch-item:last-child{ border-bottom:none; }
-  .watch-mark{
+  .prio-col-head{
+    display:flex; align-items:center; gap:8px;
     font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
-    color:var(--accent);
-    flex:none;
+    font-weight:600;
+    font-size:13px;
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line);
   }
-  .watch-title{ font-weight:600; font-size:14px; margin-bottom:2px; }
-  .watch-desc{ color:var(--ink-soft); font-size:13px; }
+  .prio-col ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px; }
+  .prio-col li{ font-size:13px; padding-left:14px; position:relative; }
+  .prio-col li::before{
+    content:"—";
+    position:absolute; left:0; color:var(--ink-faint);
+  }
+  .prio-col.p1 .prio-col-head{ color:var(--now); }
+  .prio-col.p2 .prio-col-head{ color:var(--before); }
+  .prio-col.p3 .prio-col-head{ color:var(--later); }
+
+  /* Simple checklist for section 5/6 */
+  .checklist{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    margin-top:16px;
+    box-shadow:var(--shadow);
+  }
+  .checklist-item{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    padding:14px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .checklist-item:last-child{ border-bottom:none; }
+  .checklist-item .box{
+    width:16px; height:16px;
+    border:2px solid var(--ink-faint);
+    border-radius:4px;
+    flex:none;
+    margin-top:2px;
+  }
+  .checklist-title{ font-weight:600; font-size:13.5px; }
+  .checklist-desc{ color:var(--ink-soft); font-size:12.5px; margin-top:2px; }
+  .checklist-nuance{
+    display:inline-block;
+    margin-top:6px;
+    font-size:11.5px;
+    color:var(--gold);
+    background:var(--gold-bg);
+    padding:2px 8px;
+    border-radius:5px;
+  }
 
   footer{
-    margin-top:50px;
+    margin-top:56px;
     padding-top:18px;
     border-top:1px solid var(--line);
     font-size:11.5px;
-    color:var(--ink-soft);
+    color:var(--ink-faint);
     display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
   }
 
-  @media (max-width:640px){
-    header.top{ flex-direction:column; align-items:flex-start; }
-    .meta{ text-align:left; }
-    table, thead, tbody, th, td, tr{ display:block; }
-    thead{ display:none; }
-    tr{ border-bottom:2px solid var(--line); padding:14px 16px; }
-    tr.reco{ background:var(--accent-soft); }
-    td{ border:none; padding:6px 0; }
-    td::before{
-      content: attr(data-label);
-      display:block;
-      font-size:10.5px;
-      text-transform:uppercase;
-      letter-spacing:.05em;
-      color:var(--ink-soft);
-      margin-bottom:3px;
-    }
+  @media (max-width:680px){
+    .compare{ grid-template-columns:1fr; }
+    .prio-cols{ grid-template-columns:1fr; }
     .sec-sub{ margin-left:0; }
   }
 </style>
 <div class="wrap">
 
   <header class="top">
-    <div>
-      <p class="eyebrow">Prochaines étapes</p>
-      <h1>Diffuser le podcast</h1>
-    </div>
+    <p class="eyebrow">Prochaines étapes</p>
+    <h1>Diffuser le podcast</h1>
+    <p class="dek">Comment on passe d'un fichier enregistré à un épisode sur Spotify, Apple et LinkedIn — sans se transformer en régie technique à chaque sortie.</p>
   </header>
 
-  <!-- SECTION 1 -->
-  <section>
-    <div class="sec-head">
-      <span class="sec-num">1</span>
-      <span class="sec-title">Où et avec quel hébergeur diffuser</span>
-    </div>
-    <p class="sec-sub">Comparatif des meilleures options — l'hébergeur génère le flux qui alimente Spotify, Apple, Amazon Music et Deezer.</p>
+  <ul class="toc">
+    <li><a href="#s1"><b>01</b> Fonctionnement</a></li>
+    <li><a href="#s2"><b>02</b> Hébergeur</a></li>
+    <li><a href="#s3"><b>03</b> À chaque épisode</a></li>
+    <li><a href="#s4"><b>04</b> Où communiquer</a></li>
+    <li><a href="#s5"><b>05</b> Avant le lancement</a></li>
+    <li><a href="#s6"><b>06</b> Plus tard</a></li>
+  </ul>
 
-    <div class="tablewrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Hébergeur</th>
-            <th>Prix</th>
-            <th>Diffusion automatique</th>
-            <th>Inconvénient principal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-label="Hébergeur"><span class="host-name">Spotify for Creators</span></td>
-            <td data-label="Prix" class="price">Gratuit</td>
-            <td data-label="Diffusion">Spotify automatique. Apple / Amazon / Deezer : soumission manuelle une fois (~1h au total).</td>
-            <td data-label="Inconvénient" class="con">Aucune automatisation vers les 3 autres plateformes — à refaire soi-même au lancement, mais pas à chaque épisode.</td>
-          </tr>
-          <tr class="reco">
-            <td data-label="Hébergeur"><span class="host-name">Buzzsprout</span><span class="tag-reco">Recommandé</span></td>
-            <td data-label="Prix" class="price">~11 €/mois</td>
-            <td data-label="Diffusion">Apple, Spotify, Amazon Music en 1 clic. <b>Deezer non inclus.</b></td>
-            <td data-label="Inconvénient" class="con">Malgré le prix, Deezer reste à soumettre à la main (podcasters.deezer.com) — même effort que la version gratuite sur ce point précis.</td>
-          </tr>
-          <tr class="reco">
-            <td data-label="Hébergeur"><span class="host-name">Blubrry</span><span class="tag-reco">Recommandé</span></td>
-            <td data-label="Prix" class="price">~9 €/mois</td>
-            <td data-label="Diffusion">Apple, Spotify, Amazon Music, Deezer, iHeartRadio, Pandora — tout automatique.</td>
-            <td data-label="Inconvénient" class="con">Interface jugée peu intuitive par plusieurs utilisateurs (avis vérifiés) — prise en main un peu moins fluide.</td>
-          </tr>
-          <tr>
-            <td data-label="Hébergeur"><span class="host-name">Ausha</span></td>
-            <td data-label="Prix" class="price">129 €/mois</td>
-            <td data-label="Diffusion">Tout automatique, interface la plus simple, pensée agence.</td>
-            <td data-label="Inconvénient" class="con">1 548 €/an — pertinent seulement si l'agence gère plusieurs podcasts clients en parallèle. À vérifier : ce que couvre exactement ce palier de prix.</td>
-          </tr>
-        </tbody>
-      </table>
+  <!-- SECTION 1 -->
+  <section id="s1">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <span class="sec-title">Comment fonctionne la diffusion</span>
+    </div>
+    <p class="sec-sub">Un seul point d'entrée qui redistribue partout — c'est le principe à retenir avant de choisir un outil.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <span class="flow-dot">1</span>
+        <div class="flow-content">
+          <div class="flow-title">Le fichier audio est mis en ligne chez l'hébergeur</div>
+          <div class="flow-desc">L'hébergeur génère un flux RSS unique pour le podcast — c'est ce flux qui sert de source à toutes les plateformes d'écoute.</div>
+        </div>
+      </div>
+      <div class="flow-step hub">
+        <span class="flow-dot">→</span>
+        <div class="flow-content">
+          <div class="flow-title">Le flux RSS est raccordé à chaque plateforme<span class="flow-tag">une seule fois</span></div>
+          <div class="flow-desc">Spotify, Apple Podcasts, Amazon Music, Deezer — chacune récupère le flux à la configuration initiale. Selon l'hébergeur choisi, ce raccordement est automatique ou à faire manuellement une fois.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-dot">2</span>
+        <div class="flow-content">
+          <div class="flow-title">Les épisodes suivants remontent automatiquement</div>
+          <div class="flow-desc">Une fois le flux raccordé, plus rien à refaire à la main — chaque nouvel épisode publié chez l'hébergeur apparaît sur toutes les plateformes sous 24 à 48h.</div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- SECTION 2 -->
-  <section>
+  <section id="s2">
     <div class="sec-head">
-      <span class="sec-num">2</span>
-      <span class="sec-title">Présence de marque &amp; réseaux sociaux</span>
+      <span class="sec-num">02</span>
+      <span class="sec-title">Quel hébergeur choisir</span>
     </div>
-    <p class="sec-sub">Ce qu'il faut créer ou réserver autour du podcast, au-delà de l'écoute audio.</p>
+    <p class="sec-sub">Deux options couvrent le besoin : la gratuite avec un peu de mise en place, ou la payante qui absorbe cette mise en place pour vous.</p>
 
-    <div class="legend">
-      <span><span class="dot now"></span> Maintenant</span>
-      <span><span class="dot before"></span> Avant lancement</span>
-      <span><span class="dot later"></span> Plus tard</span>
-    </div>
-
-    <div class="action">
-      <span class="box"></span>
-      <div class="action-body">
-        <div class="action-title">Compte Instagram dédié au podcast</div>
-        <div class="action-desc">Séparé des comptes existants clients — extraits vidéo, citations, annonces d'épisodes.</div>
+    <div class="reco-banner">
+      <span class="reco-badge">Recommandé</span>
+      <div class="reco-text">
+        <b>Ausha — Formule Launch</b>, à partir de <span class="reco-price">13 €/mois</span> (facturation annuelle, 15 €/mois sans engagement). Diffusion automatique vers toutes les grandes plateformes dès la souscription, site web et Smartlink générés automatiquement — pas de configuration technique à gérer en interne. Le bon compromis pour un podcast d'entreprise qui doit rester simple à administrer.
       </div>
-      <span class="prio now">Maintenant</span>
     </div>
 
-    <div class="action">
-      <span class="box"></span>
-      <div class="action-body">
-        <div class="action-title">Chaîne YouTube dédiée</div>
-        <div class="action-desc">Épisodes complets en vidéo (le matériel caméra est déjà prévu pour ça) + extraits au format Shorts.</div>
+    <div class="compare">
+      <div class="compare-card">
+        <div class="compare-name">Spotify for Creators</div>
+        <div class="compare-price">Gratuit</div>
+        <div class="compare-rows">
+          <div class="compare-row"><span class="k">Spotify</span><span class="v"><span class="check">✓</span> Automatique</span></div>
+          <div class="compare-row"><span class="k">Apple / Amazon / Deezer</span><span class="v">Raccordement manuel une fois, puis automatique</span></div>
+          <div class="compare-row"><span class="k">Site / Smartlink</span><span class="v"><span class="cross">✗</span> Non fourni</span></div>
+          <div class="compare-row"><span class="k">Pour qui</span><span class="v">Faire au plus simple et gratuit, accepter ~1h de configuration au lancement</span></div>
+        </div>
       </div>
-      <span class="prio now">Maintenant</span>
+      <div class="compare-card reco">
+        <div class="compare-name">Ausha Launch <span class="pill-mini">Reco</span></div>
+        <div class="compare-price">13 €/mois (annuel)</div>
+        <div class="compare-rows">
+          <div class="compare-row"><span class="k">Spotify / Apple / Amazon / Deezer</span><span class="v"><span class="check">✓</span> Automatique dès l'inscription</span></div>
+          <div class="compare-row"><span class="k">Site / Smartlink</span><span class="v"><span class="check">✓</span> Générés automatiquement, un lien par épisode</span></div>
+          <div class="compare-row"><span class="k">Stockage</span><span class="v">Illimité, transcription incluse (60 min/mois)</span></div>
+          <div class="compare-row"><span class="k">Pour qui</span><span class="v">Une solution pro sans y passer de temps technique</span></div>
+        </div>
+      </div>
     </div>
 
-    <div class="action">
-      <span class="box"></span>
-      <div class="action-body">
-        <div class="action-title">Réserver le nom sur les autres réseaux</div>
-        <div class="action-desc">LinkedIn, TikTok, X — même sans y publier tout de suite, réserver le pseudo évite qu'un tiers le prenne, et coûte 5 minutes.</div>
-      </div>
-      <span class="prio now">Maintenant</span>
+    <div class="alt-note">
+      <b>Autres hébergeurs sérieux</b>, si vous préférez comparer davantage : Buzzsprout (15 $/mois, facturation annuelle, 72h de publication/an) et Blubrry (à partir de 7 $/mois pour 1,5h de contenu/mois). Aucun des deux n'apporte d'avantage net sur Ausha pour ce cas d'usage — ils sont mentionnés par souci de complétude.
     </div>
+  </section>
 
-    <div class="action">
-      <span class="box"></span>
-      <div class="action-body">
-        <div class="action-title">Réserver le nom de domaine</div>
-        <div class="action-desc">Quelques euros/an — à faire dès maintenant même si le site n'est pas construit tout de suite, pour éviter le squattage du nom.</div>
-      </div>
-      <span class="prio now">Maintenant</span>
+  <!-- SECTION 3 -->
+  <section id="s3">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <span class="sec-title">Que se passe-t-il à chaque nouvel épisode</span>
     </div>
+    <p class="sec-sub">La réponse à la question qu'on nous pose toujours : non, personne n'a besoin de mettre en ligne l'épisode quatre fois.</p>
 
-    <div class="action">
-      <span class="box"></span>
-      <div class="action-body">
-        <div class="action-title">Déposer la marque (nom du podcast) à l'INPI</div>
-        <div class="action-desc">Protège le nom légalement, évite qu'un tiers le dépose avant vous une fois le podcast visible publiquement.</div>
+    <div class="flow">
+      <div class="flow-step">
+        <span class="flow-dot">1</span>
+        <div class="flow-content">
+          <div class="flow-title">Enregistrement</div>
+          <div class="flow-desc">La session avec l'invité, en présentiel ou à distance.</div>
+        </div>
       </div>
-      <span class="prio before">Avant lancement</span>
+      <div class="flow-step">
+        <span class="flow-dot">2</span>
+        <div class="flow-content">
+          <div class="flow-title">Montage audio (et vidéo)</div>
+          <div class="flow-desc">Nettoyage du son, coupes, habillage — un seul fichier final par format.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-dot">3</span>
+        <div class="flow-content">
+          <div class="flow-title">Import dans Ausha</div>
+          <div class="flow-desc">Un seul upload, titre et description de l'épisode.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-dot">4</span>
+        <div class="flow-content">
+          <div class="flow-title">Diffusion automatique</div>
+          <div class="flow-desc">Ausha pousse l'épisode vers Spotify, Apple Podcasts, Amazon Music, Deezer.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-dot">5</span>
+        <div class="flow-content">
+          <div class="flow-title">Récupération du Smartlink</div>
+          <div class="flow-desc">Un lien unique par épisode qui regroupe toutes les plateformes d'écoute — plus propre que quatre liens séparés.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <span class="flow-dot">6</span>
+        <div class="flow-content">
+          <div class="flow-title">Communication</div>
+          <div class="flow-desc">Le Smartlink part sur LinkedIn (Novembre, CEO, invité) et les autres canaux — détail en section suivante.</div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="action">
-      <span class="box"></span>
-      <div class="action-body">
-        <div class="action-title">Site web dédié</div>
-        <div class="action-desc">Page de présentation + liens vers les plateformes d'écoute. En attendant, une simple page Linktree gratuite peut suffire.</div>
+  <!-- SECTION 4 -->
+  <section id="s4">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <span class="sec-title">Où communiquer</span>
+    </div>
+    <p class="sec-sub">Un podcast où le CEO interviewe d'autres dirigeants est un format B2B — LinkedIn porte plus que l'écoute audio elle-même.</p>
+
+    <div class="prio-cols">
+      <div class="prio-col p1">
+        <div class="prio-col-head"><span class="dot now"></span> Prioritaire</div>
+        <ul>
+          <li>Page LinkedIn Novembre</li>
+          <li>Profil LinkedIn du CEO</li>
+          <li>Profil LinkedIn de l'invité (relais croisé)</li>
+          <li>Spotify / Apple / Amazon / Deezer</li>
+          <li>YouTube — épisodes filmés, format vidéo confirmé</li>
+        </ul>
       </div>
-      <span class="prio later">Plus tard</span>
+      <div class="prio-col p2">
+        <div class="prio-col-head"><span class="dot before"></span> Secondaire</div>
+        <ul>
+          <li>Instagram Novembre existant, pour recycler citations et extraits</li>
+          <li>Newsletter Novembre si elle existe déjà</li>
+        </ul>
+      </div>
+      <div class="prio-col p3">
+        <div class="prio-col-head"><span class="dot later"></span> À décider plus tard</div>
+        <ul>
+          <li>Compte Instagram dédié au podcast (repart de 0 abonné)</li>
+          <li>TikTok</li>
+          <li>X</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section id="s5">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <span class="sec-title">À prévoir avant le lancement</span>
+    </div>
+    <p class="sec-sub">Le socle à sécuriser une fois le format validé, avant le premier épisode public.</p>
+
+    <div class="checklist">
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Nom définitif du podcast</div>
+          <div class="checklist-desc">Conditionne le nom de domaine, les comptes sociaux et le dépôt de marque.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Identité graphique et cover</div>
+          <div class="checklist-desc">Visuel carré requis par toutes les plateformes d'écoute (min. 1400×1400px).</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Description du podcast et trailer éventuel</div>
+          <div class="checklist-desc">Le texte qui apparaît sur chaque plateforme ; un trailer de 60-90s aide au lancement mais n'est pas indispensable.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Comptes d'administration sous adresse Novembre</div>
+          <div class="checklist-desc">Ausha, LinkedIn, YouTube — pas sur une adresse personnelle, pour garder la main en interne.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Nom de domaine</div>
+          <div class="checklist-desc">Quelques euros par an — à réserver dès que le nom est arrêté, même sans site derrière.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Vérification de disponibilité de la marque à l'INPI</div>
+          <div class="checklist-desc">Un dépôt effectif dépend de l'ambition donnée au format sur plusieurs années — pas nécessaire pour tester 5 épisodes.</div>
+          <span class="checklist-nuance">À étudier avant lancement, pas urgent</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section id="s6">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <span class="sec-title">Plus tard, si le podcast fonctionne</span>
+    </div>
+    <p class="sec-sub">Rien de tout ça n'est nécessaire pour publier les premiers épisodes — à ressortir une fois le format installé.</p>
+
+    <div class="checklist">
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Espace dédié sur novembre.com</div>
+          <div class="checklist-desc">Ausha génère déjà un site par défaut — une vraie landing page prend son sens pour le SEO, la présentation des invités et la génération de leads.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Compte social dédié au podcast</div>
+          <div class="checklist-desc">Instagram ou TikTok propre au format, une fois qu'il a une audience à recycler plutôt qu'à construire de 0.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Newsletter dédiée</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Sponsoring</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <span class="box"></span>
+        <div>
+          <div class="checklist-title">Transcription SEO des épisodes</div>
+        </div>
+      </div>
     </div>
   </section>
 
