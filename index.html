@@ -1,0 +1,372 @@
+<title>Diffuser le podcast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F6F3;
+    --panel:#FFFFFF;
+    --ink:#181A1F;
+    --ink-soft:#5B5F6B;
+    --line:#E4E2DC;
+    --accent:#2B3EFF;
+    --accent-soft:#EEF0FF;
+    --now:#1F7A4C;
+    --now-bg:#E7F5EC;
+    --before:#B5790A;
+    --before-bg:#FBF0DA;
+    --later:#6B6F7A;
+    --later-bg:#EEEDE9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:15px;
+    line-height:1.55;
+  }
+  .wrap{ max-width:960px; margin:0 auto; padding:40px 22px 90px; }
+
+  header.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:16px;
+    padding-bottom:26px;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:36px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin:0 0 8px;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(26px,4vw,36px);
+    margin:0;
+    letter-spacing:-.01em;
+  }
+  .meta{
+    text-align:right;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.7;
+  }
+
+  section{ margin-bottom:46px; }
+  .sec-head{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .sec-num{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    background:var(--ink);
+    color:#fff;
+    width:28px; height:28px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex:none;
+  }
+  .sec-title{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:20px;
+  }
+  .sec-sub{
+    margin:2px 0 0 40px;
+    color:var(--ink-soft);
+    font-size:13.5px;
+  }
+
+  /* Comparison table */
+  .tablewrap{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:18px;
+  }
+  table{ width:100%; border-collapse:collapse; }
+  th{
+    text-align:left;
+    font-size:11.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+    background:#FBFAF8;
+  }
+  td{
+    padding:16px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+    font-size:13.5px;
+  }
+  tr:last-child td{ border-bottom:none; }
+  tr.reco td{ background:var(--accent-soft); }
+  .host-name{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:15px; }
+  .price{ font-weight:600; white-space:nowrap; }
+  .tag-reco{
+    display:inline-block;
+    background:var(--accent);
+    color:#fff;
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.04em;
+    padding:2px 8px;
+    border-radius:20px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+  .con{ color:var(--ink-soft); }
+
+  .callout{
+    margin-top:16px;
+    background:var(--accent-soft);
+    border-left:3px solid var(--accent);
+    padding:14px 18px;
+    border-radius:0 8px 8px 0;
+    font-size:13.5px;
+  }
+  .callout b{ font-family:'Space Grotesk', sans-serif; }
+
+  /* Action checklist */
+  .action{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin-bottom:10px;
+  }
+  .action .box{
+    width:18px; height:18px;
+    border:2px solid var(--ink);
+    border-radius:4px;
+    flex:none;
+    margin-top:2px;
+  }
+  .action-body{ flex:1; }
+  .action-title{ font-weight:600; font-size:14.5px; margin-bottom:3px; }
+  .action-desc{ color:var(--ink-soft); font-size:13px; }
+  .prio{
+    flex:none;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:4px 10px;
+    border-radius:20px;
+    white-space:nowrap;
+    margin-top:2px;
+  }
+  .prio.now{ background:var(--now-bg); color:var(--now); }
+  .prio.before{ background:var(--before-bg); color:var(--before); }
+  .prio.later{ background:var(--later-bg); color:var(--later); }
+
+  .legend{
+    display:flex; gap:18px; flex-wrap:wrap;
+    font-size:12px; color:var(--ink-soft);
+    margin:14px 0 20px;
+  }
+  .legend span{ display:flex; align-items:center; gap:6px; }
+  .dot{ width:9px; height:9px; border-radius:50%; }
+  .dot.now{ background:var(--now); }
+  .dot.before{ background:var(--before); }
+  .dot.later{ background:var(--later); }
+
+  /* Watch-out list */
+  .watch{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:6px 18px;
+  }
+  .watch-item{
+    display:flex; gap:12px;
+    padding:14px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .watch-item:last-child{ border-bottom:none; }
+  .watch-mark{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    color:var(--accent);
+    flex:none;
+  }
+  .watch-title{ font-weight:600; font-size:14px; margin-bottom:2px; }
+  .watch-desc{ color:var(--ink-soft); font-size:13px; }
+
+  footer{
+    margin-top:50px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    font-size:11.5px;
+    color:var(--ink-soft);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+
+  @media (max-width:640px){
+    header.top{ flex-direction:column; align-items:flex-start; }
+    .meta{ text-align:left; }
+    table, thead, tbody, th, td, tr{ display:block; }
+    thead{ display:none; }
+    tr{ border-bottom:2px solid var(--line); padding:14px 16px; }
+    tr.reco{ background:var(--accent-soft); }
+    td{ border:none; padding:6px 0; }
+    td::before{
+      content: attr(data-label);
+      display:block;
+      font-size:10.5px;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      color:var(--ink-soft);
+      margin-bottom:3px;
+    }
+    .sec-sub{ margin-left:0; }
+  }
+</style>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">Prochaines étapes</p>
+      <h1>Diffuser le podcast</h1>
+    </div>
+  </header>
+
+  <!-- SECTION 1 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">1</span>
+      <span class="sec-title">Où et avec quel hébergeur diffuser</span>
+    </div>
+    <p class="sec-sub">Comparatif des meilleures options — l'hébergeur génère le flux qui alimente Spotify, Apple, Amazon Music et Deezer.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Hébergeur</th>
+            <th>Prix</th>
+            <th>Diffusion automatique</th>
+            <th>Inconvénient principal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Hébergeur"><span class="host-name">Spotify for Creators</span></td>
+            <td data-label="Prix" class="price">Gratuit</td>
+            <td data-label="Diffusion">Spotify automatique. Apple / Amazon / Deezer : soumission manuelle une fois (~1h au total).</td>
+            <td data-label="Inconvénient" class="con">Aucune automatisation vers les 3 autres plateformes — à refaire soi-même au lancement, mais pas à chaque épisode.</td>
+          </tr>
+          <tr class="reco">
+            <td data-label="Hébergeur"><span class="host-name">Buzzsprout</span><span class="tag-reco">Recommandé</span></td>
+            <td data-label="Prix" class="price">~11 €/mois</td>
+            <td data-label="Diffusion">Apple, Spotify, Amazon Music en 1 clic. <b>Deezer non inclus.</b></td>
+            <td data-label="Inconvénient" class="con">Malgré le prix, Deezer reste à soumettre à la main (podcasters.deezer.com) — même effort que la version gratuite sur ce point précis.</td>
+          </tr>
+          <tr class="reco">
+            <td data-label="Hébergeur"><span class="host-name">Blubrry</span><span class="tag-reco">Recommandé</span></td>
+            <td data-label="Prix" class="price">~9 €/mois</td>
+            <td data-label="Diffusion">Apple, Spotify, Amazon Music, Deezer, iHeartRadio, Pandora — tout automatique.</td>
+            <td data-label="Inconvénient" class="con">Interface jugée peu intuitive par plusieurs utilisateurs (avis vérifiés) — prise en main un peu moins fluide.</td>
+          </tr>
+          <tr>
+            <td data-label="Hébergeur"><span class="host-name">Ausha</span></td>
+            <td data-label="Prix" class="price">129 €/mois</td>
+            <td data-label="Diffusion">Tout automatique, interface la plus simple, pensée agence.</td>
+            <td data-label="Inconvénient" class="con">1 548 €/an — pertinent seulement si l'agence gère plusieurs podcasts clients en parallèle. À vérifier : ce que couvre exactement ce palier de prix.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">2</span>
+      <span class="sec-title">Présence de marque &amp; réseaux sociaux</span>
+    </div>
+    <p class="sec-sub">Ce qu'il faut créer ou réserver autour du podcast, au-delà de l'écoute audio.</p>
+
+    <div class="legend">
+      <span><span class="dot now"></span> Maintenant</span>
+      <span><span class="dot before"></span> Avant lancement</span>
+      <span><span class="dot later"></span> Plus tard</span>
+    </div>
+
+    <div class="action">
+      <span class="box"></span>
+      <div class="action-body">
+        <div class="action-title">Compte Instagram dédié au podcast</div>
+        <div class="action-desc">Séparé des comptes existants clients — extraits vidéo, citations, annonces d'épisodes.</div>
+      </div>
+      <span class="prio now">Maintenant</span>
+    </div>
+
+    <div class="action">
+      <span class="box"></span>
+      <div class="action-body">
+        <div class="action-title">Chaîne YouTube dédiée</div>
+        <div class="action-desc">Épisodes complets en vidéo (le matériel caméra est déjà prévu pour ça) + extraits au format Shorts.</div>
+      </div>
+      <span class="prio now">Maintenant</span>
+    </div>
+
+    <div class="action">
+      <span class="box"></span>
+      <div class="action-body">
+        <div class="action-title">Réserver le nom sur les autres réseaux</div>
+        <div class="action-desc">LinkedIn, TikTok, X — même sans y publier tout de suite, réserver le pseudo évite qu'un tiers le prenne, et coûte 5 minutes.</div>
+      </div>
+      <span class="prio now">Maintenant</span>
+    </div>
+
+    <div class="action">
+      <span class="box"></span>
+      <div class="action-body">
+        <div class="action-title">Réserver le nom de domaine</div>
+        <div class="action-desc">Quelques euros/an — à faire dès maintenant même si le site n'est pas construit tout de suite, pour éviter le squattage du nom.</div>
+      </div>
+      <span class="prio now">Maintenant</span>
+    </div>
+
+    <div class="action">
+      <span class="box"></span>
+      <div class="action-body">
+        <div class="action-title">Déposer la marque (nom du podcast) à l'INPI</div>
+        <div class="action-desc">Protège le nom légalement, évite qu'un tiers le dépose avant vous une fois le podcast visible publiquement.</div>
+      </div>
+      <span class="prio before">Avant lancement</span>
+    </div>
+
+    <div class="action">
+      <span class="box"></span>
+      <div class="action-body">
+        <div class="action-title">Site web dédié</div>
+        <div class="action-desc">Page de présentation + liens vers les plateformes d'écoute. En attendant, une simple page Linktree gratuite peut suffire.</div>
+      </div>
+      <span class="prio later">Plus tard</span>
+    </div>
+  </section>
+
+  <footer>
+    <span>Feuille de route — diffusion podcast</span>
+    <span>Novembre</span>
+  </footer>
+
+</div>
