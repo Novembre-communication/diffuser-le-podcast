@@ -11,9 +11,10 @@
     --ink-soft:#5B5F6B;
     --ink-faint:#8A8E99;
     --line:#E4E2DC;
-    --accent:#2B3EFF;
-    --accent-ink:#1B2ACC;
-    --accent-soft:#EEF0FF;
+    --accent:#E2521E;
+    --accent-ink:#B23814;
+    --accent-soft:#FBEAE3;
+    --accent-grad: linear-gradient(135deg, #7A1B0E, #FF6A3D);
     --now:#1F7A4C;
     --now-bg:#E7F5EC;
     --before:#B5790A;
@@ -34,9 +35,10 @@
       --ink-soft:#A3A6B0;
       --ink-faint:#6E7178;
       --line:#2C2E34;
-      --accent:#7C89FF;
-      --accent-ink:#AAB2FF;
-      --accent-soft:#232544;
+      --accent:#FF8259;
+      --accent-ink:#FFAB84;
+      --accent-soft:#3A2016;
+      --accent-grad: linear-gradient(135deg, #4A0F08, #FF7A47);
       --now:#5FCB8E;
       --now-bg:#173425;
       --before:#E5AC4C;
@@ -57,9 +59,10 @@
     --ink-soft:#A3A6B0;
     --ink-faint:#6E7178;
     --line:#2C2E34;
-    --accent:#7C89FF;
-    --accent-ink:#AAB2FF;
-    --accent-soft:#232544;
+    --accent:#FF8259;
+    --accent-ink:#FFAB84;
+    --accent-soft:#3A2016;
+    --accent-grad: linear-gradient(135deg, #4A0F08, #FF7A47);
     --now:#5FCB8E;
     --now-bg:#173425;
     --before:#E5AC4C;
@@ -184,7 +187,7 @@
     letter-spacing:.04em;
     text-transform:uppercase;
     color:#fff;
-    background:var(--accent);
+    background:var(--accent-grad);
     padding:5px 10px;
     border-radius:6px;
     white-space:nowrap;
@@ -235,7 +238,7 @@
     z-index:1;
   }
   .flow-step.hub .flow-dot{
-    background:var(--accent);
+    background:var(--accent-grad);
     border-color:var(--accent);
     color:#fff;
   }
@@ -290,7 +293,7 @@
     font-weight:600;
     letter-spacing:.03em;
     text-transform:uppercase;
-    background:var(--accent);
+    background:var(--accent-grad);
     color:#fff;
     padding:2px 8px;
     border-radius:20px;
