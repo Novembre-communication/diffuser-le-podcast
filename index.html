@@ -252,42 +252,37 @@
     vertical-align:1px;
   }
 
-  /* Comparison table (2-column decision) */
-  .compare{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
+  /* Host comparison — full list, pros & cons */
+  .hostgrid{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
     margin-top:18px;
   }
-  .compare-card{
+  .host-card{
     background:var(--panel);
     border:1px solid var(--line);
     border-radius:12px;
-    padding:20px;
+    padding:18px 20px;
     box-shadow:var(--shadow);
+    display:grid;
+    grid-template-columns:170px 1fr 1fr;
+    gap:18px;
   }
-  .compare-card.reco{ border-color:color-mix(in srgb, var(--accent) 40%, var(--line)); }
-  .compare-name{
+  .host-card.reco{ border-color:color-mix(in srgb, var(--accent) 40%, var(--line)); background:var(--accent-soft); }
+  .host-id{ display:flex; flex-direction:column; gap:6px; }
+  .host-name{
     font-family:'Space Grotesk', sans-serif;
     font-weight:600;
-    font-size:16px;
-    display:flex;
-    align-items:center;
-    gap:8px;
+    font-size:15.5px;
   }
-  .compare-price{
+  .host-price{
     font-family:'JetBrains Mono', monospace;
     color:var(--ink-soft);
-    font-size:13px;
-    margin:4px 0 14px;
+    font-size:12px;
   }
-  .compare-rows{ display:flex; flex-direction:column; gap:10px; }
-  .compare-row{ display:flex; gap:10px; font-size:13px; }
-  .compare-row .k{ color:var(--ink-faint); flex:0 0 40%; }
-  .compare-row .v{ color:var(--ink); flex:1; }
-  .check{ color:var(--now); }
-  .cross{ color:var(--ink-faint); }
   .pill-mini{
+    display:inline-block;
     font-size:10px;
     font-weight:600;
     letter-spacing:.03em;
@@ -296,17 +291,26 @@
     color:#fff;
     padding:2px 8px;
     border-radius:20px;
+    width:fit-content;
   }
-  .alt-note{
-    margin-top:16px;
+  .host-pros-title, .host-cons-title{
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .host-pros-title{ color:var(--now); }
+  .host-cons-title{ color:var(--ink-faint); }
+  .host-pros ul, .host-cons ul{
+    margin:0; padding:0; list-style:none;
+    display:flex; flex-direction:column; gap:5px;
     font-size:12.5px;
-    color:var(--ink-soft);
-    padding:12px 16px;
-    background:var(--panel-soft);
-    border:1px solid var(--line);
-    border-radius:8px;
   }
-  .alt-note b{ color:var(--ink); }
+  .host-pros li{ padding-left:15px; position:relative; color:var(--ink); }
+  .host-pros li::before{ content:"+"; position:absolute; left:0; color:var(--now); font-weight:700; }
+  .host-cons li{ padding-left:15px; position:relative; color:var(--ink-soft); }
+  .host-cons li::before{ content:"–"; position:absolute; left:0; color:var(--ink-faint); font-weight:700; }
 
   /* Action checklist */
   .action{
@@ -438,7 +442,7 @@
   }
 
   @media (max-width:680px){
-    .compare{ grid-template-columns:1fr; }
+    .host-card{ grid-template-columns:1fr; }
     .prio-cols{ grid-template-columns:1fr; }
     .sec-sub{ margin-left:0; }
   }
@@ -454,10 +458,9 @@
   <ul class="toc">
     <li><a href="#s1"><b>01</b> Fonctionnement</a></li>
     <li><a href="#s2"><b>02</b> Hébergeur</a></li>
-    <li><a href="#s3"><b>03</b> À chaque épisode</a></li>
-    <li><a href="#s4"><b>04</b> Où communiquer</a></li>
-    <li><a href="#s5"><b>05</b> Avant le lancement</a></li>
-    <li><a href="#s6"><b>06</b> Plus tard</a></li>
+    <li><a href="#s4"><b>03</b> Où communiquer</a></li>
+    <li><a href="#s5"><b>04</b> Avant le lancement</a></li>
+    <li><a href="#s6"><b>05</b> Plus tard</a></li>
   </ul>
 
   <!-- SECTION 1 -->
@@ -499,92 +502,99 @@
       <span class="sec-num">02</span>
       <span class="sec-title">Quel hébergeur choisir</span>
     </div>
-    <p class="sec-sub">Deux options couvrent le besoin : la gratuite avec un peu de mise en place, ou la payante qui absorbe cette mise en place pour vous.</p>
+    <p class="sec-sub">Comparatif des quatre options sérieuses, avec les points forts et les points faibles de chacune.</p>
 
-    <div class="reco-banner">
-      <span class="reco-badge">Recommandé</span>
-      <div class="reco-text">
-        <b>Ausha — Formule Launch</b>, à partir de <span class="reco-price">13 €/mois</span> (facturation annuelle, 15 €/mois sans engagement). Diffusion automatique vers toutes les grandes plateformes dès la souscription, site web et Smartlink générés automatiquement — pas de configuration technique à gérer en interne. Le bon compromis pour un podcast d'entreprise qui doit rester simple à administrer.
+    <div class="hostgrid">
+      <div class="host-card">
+        <div class="host-id">
+          <div class="host-name">Spotify for Creators</div>
+          <div class="host-price">Gratuit</div>
+        </div>
+        <div class="host-pros">
+          <div class="host-pros-title">Points forts</div>
+          <ul>
+            <li>Gratuit et illimité</li>
+            <li>Diffusion Spotify automatique dès la publication</li>
+            <li>Prise en main immédiate, aucun engagement</li>
+          </ul>
+        </div>
+        <div class="host-cons">
+          <div class="host-cons-title">Points faibles</div>
+          <ul>
+            <li>Apple, Amazon Music, Deezer : soumission manuelle une fois au lancement (~1h au total)</li>
+            <li>Pas de site ni de Smartlink fournis</li>
+            <li>Pas de transcription ni de statistiques avancées</li>
+          </ul>
+        </div>
       </div>
-    </div>
 
-    <div class="compare">
-      <div class="compare-card">
-        <div class="compare-name">Spotify for Creators</div>
-        <div class="compare-price">Gratuit</div>
-        <div class="compare-rows">
-          <div class="compare-row"><span class="k">Spotify</span><span class="v"><span class="check">✓</span> Automatique</span></div>
-          <div class="compare-row"><span class="k">Apple / Amazon / Deezer</span><span class="v">Raccordement manuel une fois, puis automatique</span></div>
-          <div class="compare-row"><span class="k">Site / Smartlink</span><span class="v"><span class="cross">✗</span> Non fourni</span></div>
-          <div class="compare-row"><span class="k">Pour qui</span><span class="v">Faire au plus simple et gratuit, accepter ~1h de configuration au lancement</span></div>
+      <div class="host-card">
+        <div class="host-id">
+          <div class="host-name">Buzzsprout</div>
+          <div class="host-price">15 $/mois (facturation annuelle)</div>
+        </div>
+        <div class="host-pros">
+          <div class="host-pros-title">Points forts</div>
+          <ul>
+            <li>Apple, Spotify, Amazon Music en 1 clic</li>
+            <li>Site web personnalisé et statistiques avancées inclus</li>
+            <li>Interface simple, bonne réputation dans le milieu podcast</li>
+          </ul>
+        </div>
+        <div class="host-cons">
+          <div class="host-cons-title">Points faibles</div>
+          <ul>
+            <li>Deezer non inclus — reste à soumettre à la main (podcasters.deezer.com)</li>
+            <li>Plafond de 72h de publication par an sur le plan de base</li>
+            <li>Facturé en dollars</li>
+          </ul>
         </div>
       </div>
-      <div class="compare-card reco">
-        <div class="compare-name">Ausha Launch <span class="pill-mini">Reco</span></div>
-        <div class="compare-price">13 €/mois (annuel)</div>
-        <div class="compare-rows">
-          <div class="compare-row"><span class="k">Spotify / Apple / Amazon / Deezer</span><span class="v"><span class="check">✓</span> Automatique dès l'inscription</span></div>
-          <div class="compare-row"><span class="k">Site / Smartlink</span><span class="v"><span class="check">✓</span> Générés automatiquement, un lien par épisode</span></div>
-          <div class="compare-row"><span class="k">Stockage</span><span class="v">Illimité, transcription incluse (60 min/mois)</span></div>
-          <div class="compare-row"><span class="k">Pour qui</span><span class="v">Une solution pro sans y passer de temps technique</span></div>
-        </div>
-      </div>
-    </div>
 
-    <div class="alt-note">
-      <b>Autres hébergeurs sérieux</b>, si vous préférez comparer davantage : Buzzsprout (15 $/mois, facturation annuelle, 72h de publication/an) et Blubrry (à partir de 7 $/mois pour 1,5h de contenu/mois). Aucun des deux n'apporte d'avantage net sur Ausha pour ce cas d'usage — ils sont mentionnés par souci de complétude.
-    </div>
-  </section>
+      <div class="host-card">
+        <div class="host-id">
+          <div class="host-name">Blubrry</div>
+          <div class="host-price">Dès 7 $/mois (1,5h de contenu/mois)</div>
+        </div>
+        <div class="host-pros">
+          <div class="host-pros-title">Points forts</div>
+          <ul>
+            <li>Apple, Spotify, Amazon Music, Deezer, iHeartRadio, Pandora — tout automatique</li>
+            <li>Palier d'entrée le moins cher du comparatif</li>
+            <li>Outils IA (transcription, notes d'épisode) inclus</li>
+          </ul>
+        </div>
+        <div class="host-cons">
+          <div class="host-cons-title">Points faibles</div>
+          <ul>
+            <li>Interface jugée peu intuitive par plusieurs utilisateurs (avis vérifiés)</li>
+            <li>Le prix grimpe vite avec le volume publié (jusqu'à 100 $/mois en illimité)</li>
+            <li>Facturé en dollars</li>
+          </ul>
+        </div>
+      </div>
 
-  <!-- SECTION 3 -->
-  <section id="s3">
-    <div class="sec-head">
-      <span class="sec-num">03</span>
-      <span class="sec-title">Que se passe-t-il à chaque nouvel épisode</span>
-    </div>
-    <p class="sec-sub">La réponse à la question qu'on nous pose toujours : non, personne n'a besoin de mettre en ligne l'épisode quatre fois.</p>
-
-    <div class="flow">
-      <div class="flow-step">
-        <span class="flow-dot">1</span>
-        <div class="flow-content">
-          <div class="flow-title">Enregistrement</div>
-          <div class="flow-desc">La session avec l'invité, en présentiel ou à distance.</div>
+      <div class="host-card reco">
+        <div class="host-id">
+          <div class="host-name">Ausha — Launch</div>
+          <div class="host-price">Dès 13 €/mois (annuel), 15 €/mois sans engagement</div>
+          <span class="pill-mini">Recommandé</span>
         </div>
-      </div>
-      <div class="flow-step">
-        <span class="flow-dot">2</span>
-        <div class="flow-content">
-          <div class="flow-title">Montage audio (et vidéo)</div>
-          <div class="flow-desc">Nettoyage du son, coupes, habillage — un seul fichier final par format.</div>
+        <div class="host-pros">
+          <div class="host-pros-title">Points forts</div>
+          <ul>
+            <li>Spotify, Apple, Amazon Music, Deezer automatiques dès l'inscription</li>
+            <li>Site web et Smartlink générés automatiquement, un lien par épisode</li>
+            <li>Stockage illimité, transcription incluse (60 min/mois)</li>
+            <li>Facturé en euros, interface pensée pour le podcast</li>
+          </ul>
         </div>
-      </div>
-      <div class="flow-step">
-        <span class="flow-dot">3</span>
-        <div class="flow-content">
-          <div class="flow-title">Import dans Ausha</div>
-          <div class="flow-desc">Un seul upload, titre et description de l'épisode.</div>
-        </div>
-      </div>
-      <div class="flow-step">
-        <span class="flow-dot">4</span>
-        <div class="flow-content">
-          <div class="flow-title">Diffusion automatique</div>
-          <div class="flow-desc">Ausha pousse l'épisode vers Spotify, Apple Podcasts, Amazon Music, Deezer.</div>
-        </div>
-      </div>
-      <div class="flow-step">
-        <span class="flow-dot">5</span>
-        <div class="flow-content">
-          <div class="flow-title">Récupération du Smartlink</div>
-          <div class="flow-desc">Un lien unique par épisode qui regroupe toutes les plateformes d'écoute — plus propre que quatre liens séparés.</div>
-        </div>
-      </div>
-      <div class="flow-step">
-        <span class="flow-dot">6</span>
-        <div class="flow-content">
-          <div class="flow-title">Communication</div>
-          <div class="flow-desc">Le Smartlink part sur LinkedIn (Novembre, CEO, invité) et les autres canaux — détail en section suivante.</div>
+        <div class="host-cons">
+          <div class="host-cons-title">Points faibles</div>
+          <ul>
+            <li>Un peu plus cher que le palier d'entrée de Blubrry</li>
+            <li>Fonctionnalités avancées (vidéo, newsletter) réservées aux offres supérieures</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -593,7 +603,7 @@
   <!-- SECTION 4 -->
   <section id="s4">
     <div class="sec-head">
-      <span class="sec-num">04</span>
+      <span class="sec-num">03</span>
       <span class="sec-title">Où communiquer</span>
     </div>
     <p class="sec-sub">Un podcast où le CEO interviewe d'autres dirigeants est un format B2B — LinkedIn porte plus que l'écoute audio elle-même.</p>
@@ -630,7 +640,7 @@
   <!-- SECTION 5 -->
   <section id="s5">
     <div class="sec-head">
-      <span class="sec-num">05</span>
+      <span class="sec-num">04</span>
       <span class="sec-title">À prévoir avant le lancement</span>
     </div>
     <p class="sec-sub">Le socle à sécuriser une fois le format validé, avant le premier épisode public.</p>
@@ -685,7 +695,7 @@
   <!-- SECTION 6 -->
   <section id="s6">
     <div class="sec-head">
-      <span class="sec-num">06</span>
+      <span class="sec-num">05</span>
       <span class="sec-title">Plus tard, si le podcast fonctionne</span>
     </div>
     <p class="sec-sub">Rien de tout ça n'est nécessaire pour publier les premiers épisodes — à ressortir une fois le format installé.</p>
