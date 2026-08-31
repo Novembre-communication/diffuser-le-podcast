@@ -454,10 +454,73 @@
     display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
   }
 
+  /* Format accordions */
+  .format-group{
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:var(--panel);
+    box-shadow:var(--shadow);
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .format-group summary{
+    cursor:pointer;
+    padding:15px 18px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    list-style:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .format-group summary::-webkit-details-marker{ display:none; }
+  .format-group summary::after{
+    content:"▾";
+    color:var(--ink-faint);
+    font-size:12px;
+    transition:transform .18s ease;
+    flex:none;
+    margin-left:12px;
+  }
+  .format-group[open] summary::after{ transform:rotate(180deg); }
+  .format-group summary:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+  .format-list{
+    padding:2px 18px 16px;
+    display:flex;
+    flex-direction:column;
+  }
+  .format-row{
+    padding:10px 0;
+    border-top:1px dashed var(--line);
+  }
+  .format-row-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:14px;
+  }
+  .format-label{ font-weight:600; font-size:13px; }
+  .format-value{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    color:var(--accent-ink);
+    white-space:nowrap;
+    flex:none;
+  }
+  .format-note{
+    color:var(--ink-soft);
+    font-size:12px;
+    margin-top:3px;
+    max-width:56ch;
+  }
+
   @media (max-width:680px){
     .host-card{ grid-template-columns:1fr; }
     .prio-cols{ grid-template-columns:1fr; }
     .sec-sub{ margin-left:0; }
+    .format-row-head{ flex-direction:column; align-items:flex-start; gap:2px; }
   }
 </style>
 <div class="wrap">
@@ -474,6 +537,7 @@
     <li><a href="#s4"><b>03</b> Où communiquer</a></li>
     <li><a href="#s5"><b>04</b> Avant le lancement</a></li>
     <li><a href="#s6"><b>05</b> Plus tard</a></li>
+    <li><a href="#s7"><b>06</b> Formats de création</a></li>
   </ul>
 
   <!-- SECTION 1 -->
@@ -749,6 +813,159 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- SECTION 7 -->
+  <section id="s7">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <span class="sec-title">Formats de création</span>
+    </div>
+    <p class="sec-sub">Toutes les dimensions à respecter, plateforme par plateforme. Cliquez sur un nom pour dérouler le détail.</p>
+
+    <details class="format-group">
+      <summary>YouTube</summary>
+      <div class="format-list">
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Photo de profil (chaîne)</span><span class="format-value">800 × 800 px</span></div>
+          <div class="format-note">Affichée en cercle. JPG, PNG ou GIF non animé, max 4 Mo.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Bannière de chaîne</span><span class="format-value">2560 × 1440 px</span></div>
+          <div class="format-note">Zone sûre (texte/logo) : 1546 × 423 px centrée. Minimum 2048 × 1152 px, max 6 Mo.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Miniature de vidéo</span><span class="format-value">1280 × 720 px</span></div>
+          <div class="format-note">Ratio 16:9, largeur minimum 640 px. JPG, PNG, GIF ou BMP, max 2 Mo.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Vidéo standard</span><span class="format-value">1920 × 1080 px</span></div>
+          <div class="format-note">Ratio 16:9.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Short (vidéo + vignette)</span><span class="format-value">1080 × 1920 px</span></div>
+          <div class="format-note">Ratio 9:16. Vignette personnalisée possible avec un compte vérifié (Partner Program).</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="format-group">
+      <summary>Instagram</summary>
+      <div class="format-list">
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Photo de profil</span><span class="format-value">320 × 320 px</span></div>
+          <div class="format-note">Affichée en cercle : éviter les éléments importants proches des bords.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Post carré</span><span class="format-value">1080 × 1080 px</span></div>
+          <div class="format-note">Ratio 1:1.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Post portrait (recommandé)</span><span class="format-value">1080 × 1350 px</span></div>
+          <div class="format-note">Ratio 4:5, format qui prend le plus de place dans le feed.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Post paysage</span><span class="format-value">1080 × 566 px</span></div>
+          <div class="format-note">Ratio 1.91:1.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Story / Reel</span><span class="format-value">1080 × 1920 px</span></div>
+          <div class="format-note">Ratio 9:16. Zone sûre ≈ 1080 × 1420 px centrée : les 250 px du haut et du bas sont masqués par l'interface (pseudo, bouton réponse).</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Carrousel</span><span class="format-value">1080 × 1350 px</span></div>
+          <div class="format-note">Par slide, même logique que le post portrait.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Format fichier</span><span class="format-value">JPEG / PNG</span></div>
+          <div class="format-note">Espace colorimétrique sRGB, moins de 8 Mo.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="format-group">
+      <summary>LinkedIn</summary>
+      <div class="format-list">
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Photo de profil (personnel)</span><span class="format-value">400 × 400 px</span></div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Bannière de couverture (profil)</span><span class="format-value">1584 × 396 px</span></div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Logo page Entreprise</span><span class="format-value">300 à 400 × 400 px</span></div>
+          <div class="format-note">300 × 300 px minimum, 400 × 400 px maximum. PNG recommandé, max 4 Mo.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Bannière page Entreprise</span><span class="format-value">4200 × 700 px</span></div>
+          <div class="format-note">Taille d'upload recommandée (ratio 6:1) pour rester net sur les écrans Retina/4K. Affichée ensuite à 1128 × 191 px. Max 3 Mo.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Post paysage</span><span class="format-value">1200 × 627 px</span></div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Post carré</span><span class="format-value">1080 × 1080 px</span></div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Post vertical</span><span class="format-value">1200 × 1500 px</span></div>
+          <div class="format-note">Ratio 4:5, max 5 Mo.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Carrousel</span><span class="format-value">1080 × 1080 / 1350 px</span></div>
+          <div class="format-note">Carré (1080 × 1080) ou portrait (1080 × 1350) selon le choix.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Vignette vidéo</span><span class="format-value">1920 × 1080 px</span></div>
+          <div class="format-note">Ratio 16:9, max 2 Mo.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Format fichier</span><span class="format-value">JPG / PNG / GIF</span></div>
+          <div class="format-note">GIF non animé uniquement. Max 5 Mo par image.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="format-group">
+      <summary>X (Twitter)</summary>
+      <div class="format-list">
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Photo de profil</span><span class="format-value">400 × 400 px</span></div>
+          <div class="format-note">Ratio 1:1, max 2 Mo.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Bannière (header)</span><span class="format-value">1500 × 500 px</span></div>
+          <div class="format-note">Ratio 3:1, max 5 Mo.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Image de post</span><span class="format-value">1200 × 675 px</span></div>
+          <div class="format-note">Ratio 16:9, max 5 Mo (JPG/PNG/WebP). GIF toléré jusqu'à 15 Mo.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Formats alternatifs</span><span class="format-value">1:1 ou 9:16</span></div>
+          <div class="format-note">Le carré et le vertical sont acceptés, mais le vertical est recadré dans l'aperçu du fil.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="format-group">
+      <summary>Couverture podcast (Spotify / Apple / Amazon / Deezer)</summary>
+      <div class="format-list">
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Format universel recommandé</span><span class="format-value">3000 × 3000 px</span></div>
+          <div class="format-note">Carré 1:1, fonctionne sur toutes les plateformes à la fois.</div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Minimum Apple Podcasts</span><span class="format-value">1400 × 1400 px</span></div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Minimum Spotify</span><span class="format-value">640 × 640 px</span></div>
+        </div>
+        <div class="format-row">
+          <div class="format-row-head"><span class="format-label">Format fichier</span><span class="format-value">JPG / PNG</span></div>
+          <div class="format-note">RVB, idéalement sous 500 Ko : en JPEG qualité 80-90 % pour rester sous la limite à 3000 px.</div>
+        </div>
+      </div>
+    </details>
   </section>
 
   <footer>
